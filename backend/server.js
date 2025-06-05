@@ -66,5 +66,18 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/api/nav-links", (req, res) => {
+  req.getConnection((err, connection) => {
+    if (err) return res.status(500).send("Erreur connexion DB");
+    connection.query(
+      "SELECT * FROM nav_links ORDER BY position",
+      (err, rows) => {
+        if (err) return res.status(500).send("Erreur requête SQL");
+        res.json(rows);
+      }
+    );
+  });
+});
+
 const port = 5000;
 app.listen(port, () => console.log(`🚀 Le serveur a démarré au port ${port}`));
