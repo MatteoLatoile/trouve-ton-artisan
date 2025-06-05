@@ -20,11 +20,11 @@ const HeroHome = () => {
             artisans près de chez vous : demande de devis, prestations ou simple
             renseignement, en quelques clics.
           </h2>
-          <button className="bg-[#0074C7] hover:bg-[#00497C] px-10 py-2 rounded-full text-white mb-2">
+          <button className="bg-[#0074C7] hover:bg-[#00497C] sm:px-20 py-2 rounded-full text-white mb-2">
             Trouver des artisans
           </button>
           <p className="text-sm my-2">Vous êtes artisan ?</p>
-          <button className="border-2 border-white px-6 py-2 rounded-full text-white hover:bg-white hover:text-black transition">
+          <button className="border-2 border-white sm:px-15 py-2 rounded-full text-white hover:bg-white hover:text-black transition">
             Rejoindre la plateforme
           </button>
         </div>
