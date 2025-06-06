@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import Artisant from "../composant/Artisant";
 
 const Fabrication = () => {
-  useEffect(() => {
-    document.title = "Fabrications - Trouve ton artisan";
-  }, []);
-  return <div>Fabrication</div>;
+  return (
+    <div>
+      <Artisant />
+    </div>
+  );
 };
 
 export default Fabrication;

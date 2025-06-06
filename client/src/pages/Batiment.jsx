@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import Artisant from "../composant/Artisant";
 
 const Batiment = () => {
-  useEffect(() => {
-    document.title = "Batiment - Trouve ton artisan";
-  }, []);
-  return <div>Batiment</div>;
+  return (
+    <div>
+      <Artisant />
+    </div>
+  );
 };
 
 export default Batiment;

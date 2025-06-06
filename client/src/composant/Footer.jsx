@@ -6,11 +6,11 @@ const Footer = () => {
       <footer>
         <div className="bg-[#0074C7] flex justify-between flex-wrap relative  text-white p-6 ">
           <img
-            className="absolute left-0 top-[-50px] z-1"
+            className="absolute left-0 top-[-50px] lg:top-[-88px] z-1"
             src={Bubble}
             alt=""
           />
-          <div className="w-full mb-6">
+          <div className="w-full mt-7 mb-6">
             <p>
               Conseil régional <br /> Auvergne-Rhône-Alpes
             </p>{" "}
