@@ -1,17 +1,22 @@
+import { Link } from "react-router-dom";
+import ErrorImg from "../../public/assets/images - background/error404.png";
 const NotFound = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white text-gray-800 p-6 text-center">
-      <h1 className="text-6xl font-bold text-[#0074C7] mb-4">404</h1>
-      <h2 className="text-2xl font-semibold mb-2">Page non trouvée</h2>
-      <p className="text-gray-600 mb-6">
-        Oups ! La page que vous cherchez n’existe pas.
+    <div className=" mt-30 mb-15 flex flex-col gap-7 p-4 lg:px-20 ">
+      <h1 className="text-3xl font-bold text-[#00497C] sm:text-4xl">
+        Erreur 404
+      </h1>
+      <p>
+        Cette page n'existe pas ! Elle n'a jamais franchi la ligne d'arrivée.
       </p>
-      <a
-        href="/"
-        className="bg-[#0074C7] text-white px-6 py-3 rounded-full hover:bg-[#005999] transition"
+      <img src={ErrorImg} alt="" />
+      <p>© Région Auvergne-Rhône-Alpes Afficher la transcription</p>
+      <Link
+        className="bg-[#0074C7] py-4 px-8 w-fit text-[#fff] rounded-full"
+        to="/"
       >
         Retour à l'accueil
-      </a>
+      </Link>
     </div>
   );
 };

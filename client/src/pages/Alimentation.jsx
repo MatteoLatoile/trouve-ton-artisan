@@ -2,7 +2,7 @@ import Artisant from "../composant/Artisant";
 
 const Alimentation = () => {
   return (
-    <div>
+    <div className="mt-25">
       <Artisant />
     </div>
   );

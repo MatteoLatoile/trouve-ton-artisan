@@ -2,7 +2,7 @@ import Artisant from "../composant/Artisant";
 
 const Fabrication = () => {
   return (
-    <div>
+    <div className="mt-25">
       <Artisant />
     </div>
   );

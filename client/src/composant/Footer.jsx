@@ -6,7 +6,7 @@ const Footer = () => {
       <footer>
         <div className="bg-[#0074C7] flex justify-between flex-wrap relative  text-white p-6 ">
           <img
-            className="absolute left-0 top-[-50px] lg:top-[-88px] z-1"
+            className="absolute left-0 top-[-40px] lg:top-[-88px] z-1"
             src={Bubble}
             alt=""
           />
