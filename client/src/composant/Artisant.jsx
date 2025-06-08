@@ -1,7 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef, useState } from "react";
 import { FiMail } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Artisant = () => {
   const [data, setData] = useState([]);
@@ -9,8 +13,9 @@ const Artisant = () => {
   const [filteredData, setFilteredData] = useState([]);
 
   const location = useLocation();
+  const cardsRef = useRef([]);
 
-  // Fonction utilitaire pour extraire la catégorie depuis la route
+  // Fonction pour déterminer la catégorie depuis le chemin
   const getCategorieFromPath = (path) => {
     if (path.includes("/services/batiment")) return "Bâtiment";
     if (path.includes("/services/alimentation")) return "Alimentation";
@@ -41,6 +46,29 @@ const Artisant = () => {
     );
     setFilteredData(filtered);
   }, [search, data]);
+
+  useEffect(() => {
+    cardsRef.current.forEach((card, index) => {
+      if (!card) return;
+      gsap.fromTo(
+        card,
+        { y: 50, opacity: 0, scale: 0.95 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.5,
+          ease: "power2.out",
+          delay: index * 0.2,
+          scrollTrigger: {
+            trigger: card,
+            start: "top 95%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    });
+  }, [filteredData]);
 
   const renderStars = (note) => {
     const fullStars = Math.floor(note);
@@ -113,10 +141,11 @@ const Artisant = () => {
 
       <div className="flex flex-wrap justify-center items-start">
         {filteredData.length > 0 ? (
-          filteredData.map((artisan) => (
+          filteredData.map((artisan, index) => (
             <div
               key={artisan.id}
-              className="bg-[#F1F8FC] shadow-md w-80 p-4 m-4 flex flex-col items-center text-center"
+              ref={(el) => (cardsRef.current[index] = el)}
+              className="bg-[#F1F8FC] shadow-md w-80 p-4 m-4 flex flex-col items-center text-center rounded-xl"
             >
               <img
                 src={artisan.image}

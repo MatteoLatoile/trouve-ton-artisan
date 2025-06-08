@@ -10,10 +10,17 @@ const Services = () => {
     document.title = "Services - Trouve ton artisan";
   }, []);
   return (
-    <div>
-      <div className="bg-[#F1F8FC] rounded-full w-150 h-150 left-[-100px] top-[-200px] z-[-999] absolute"></div>
-      <section>
-        <div className=" justify-center gap-1 flex-wrap flex mt-30 text-white px-2 py-10">
+    <div className="mt-25 relative">
+      <div className="absolute sm:left-10 sm:top-2 sm:text-2xl font-bold text-[#0074C7] p-4 bg-[#fff]">
+        <span className="text-6xl text-[#0074C7] font-black">-</span> <br />
+        Choisissez votre service
+      </div>
+      <div
+        className="
+      bg-[#F1F8FC] overflow-hidden rounded-full w-150 h-150 left-[-100px] top-[-200px] z-[-999] absolute sm:left-[-100px] sm:w-200 sm:h-160 md:left-[-15px] md:w-250 md:h-150 lg:w-275 xl:hidden"
+      ></div>
+      <section className="mt-30">
+        <div className=" justify-center m-auto gap-1 flex-wrap flex mt-30 text-white px-2 py-10">
           <Link
             className="bg-[#0074C7] rounded-2xl text-center py-4 m-1 w-1/3 align-middle "
             to="/services/fabrication"
@@ -37,7 +44,13 @@ const Services = () => {
           </Link>
         </div>
       </section>
-      <Artisant />
+      <section className="mt-30 relative mb-20">
+        <div className="absolute sm:left-10 sm:top-[-30px] sm:text-2xl font-bold text-white p-4 bg-[#0074C7]">
+          <span className="text-6xl text-[#fff] font-black">-</span> <br />
+          Tous nos artisans
+        </div>
+        <Artisant />
+      </section>
     </div>
   );
 };
