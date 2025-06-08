@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -14,7 +15,7 @@ const Register = () => {
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -27,6 +28,7 @@ const Register = () => {
       .post("http://localhost:5000/register", values, { withCredentials: true })
       .then((res) => {
         if (res.data.status === "succès") {
+          navigate("/login");
           setMessage("Inscription réussie !");
         } else if (res.data.error) {
           setMessage(res.data.error);
