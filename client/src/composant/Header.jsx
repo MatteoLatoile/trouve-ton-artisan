@@ -40,6 +40,8 @@ const Header = () => {
   const [showHeader, setShowHeader] = useState(true); // true par défaut sauf page d'accueil
   const location = useLocation();
 
+  axios.defaults.withCredentials = true;
+
   const isHomePage = location.pathname === "/";
 
   useEffect(() => {
@@ -64,6 +66,34 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHomePage]);
+
+  const [auth, setAuth] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/verify", { withCredentials: true })
+      .then((res) => {
+        if (res.data.Status === "succès") {
+          setAuth(true);
+        } else {
+          setAuth(false);
+        }
+      })
+      .catch((err) => {
+        console.error("Erreur verification du token :", err);
+      });
+  });
+
+  //pour supprimer
+  const handleDelete = () => {
+    axios
+      .get("http://localhost:5000/logout", { withCredentials: true })
+      .then(() => {
+        setAuth(false);
+        location.reload();
+      })
+      .catch((err) => console.log("erreur lors de la deconnexion", err));
+  };
 
   return (
     <header
@@ -118,13 +148,45 @@ const Header = () => {
         </ul>
       </nav>
 
-      {/* Connexion (desktop) */}
       {auth ? (
-        <Link to="/login" className="hidden md:block">
-          <button className="border border-[#0074C7] text-[#0074C7] rounded-full px-6 py-2 hover:bg-blue-100 transition-colors">
-            Déconnexion
+        <div className="relative hidden md:block">
+          {/* Icône utilisateur */}
+          <button
+            onClick={() => {
+              const menu = document.getElementById("user-menu");
+              if (menu) menu.classList.toggle("hidden");
+            }}
+            className="text-[#0074C7] border border-[#0074C7] rounded-full p-2 hover:bg-blue-100 transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0"
+              />
+            </svg>
           </button>
-        </Link>
+
+          {/* Menu déroulant toggle */}
+          <div
+            id="user-menu"
+            className="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg z-50 hidden"
+          >
+            <button
+              onClick={handleDelete}
+              className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-100"
+            >
+              Déconnexion
+            </button>
+          </div>
+        </div>
       ) : (
         <Link to="/login" className="hidden md:block">
           <button className="border border-[#0074C7] text-[#0074C7] rounded-full px-6 py-2 hover:bg-blue-100 transition-colors">

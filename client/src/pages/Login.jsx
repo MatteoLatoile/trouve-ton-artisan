@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [values, setValues] = useState({
@@ -75,9 +75,9 @@ const Login = () => {
 
         <p className="text-center mt-4 text-sm text-gray-600">
           Vous n'avez pas de compte ?{" "}
-          <a href="/register" className="text-[#0074C7] underline">
+          <Link to="/register" className="text-[#0074C7] underline">
             S'inscrire
-          </a>
+          </Link>
         </p>
       </div>
     </div>

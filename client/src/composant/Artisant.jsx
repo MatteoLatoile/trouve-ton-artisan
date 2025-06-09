@@ -7,15 +7,21 @@ import { useLocation } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const Spinner = () => (
+  <div className="flex justify-center items-center py-20">
+    <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
+
 const Artisant = () => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [loading, setLoading] = useState(true); // 🆕 loader
 
   const location = useLocation();
   const cardsRef = useRef([]);
 
-  // Fonction pour déterminer la catégorie depuis le chemin
   const getCategorieFromPath = (path) => {
     if (path.includes("/services/batiment")) return "Bâtiment";
     if (path.includes("/services/alimentation")) return "Alimentation";
@@ -26,19 +32,29 @@ const Artisant = () => {
   const categorie = getCategorieFromPath(location.pathname);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/")
-      .then((res) => {
-        const filtered = categorie
-          ? res.data.filter((artisan) => artisan.categorie === categorie)
-          : res.data;
-        setData(filtered);
-        setFilteredData(filtered);
-      })
-      .catch((err) =>
-        console.error("Erreur lors de la récupération des données :", err)
-      );
-  }, [categorie]);
+    setLoading(true); // 🆕 Start loader
+    setTimeout(() => {
+      axios
+        .get("http://localhost:5000/artisans", { withCredentials: true })
+        .then((res) => {
+          const filtered = categorie
+            ? categorie === "Top"
+              ? res.data.filter((artisan) => artisan.top === true)
+              : res.data.filter((artisan) => artisan.categorie === categorie)
+            : location.pathname === "/"
+            ? res.data.filter((artisan) => artisan.top === true)
+            : res.data;
+
+          setData(filtered);
+          setFilteredData(filtered);
+          setLoading(false); // 🆕 Stop loader
+        })
+        .catch((err) => {
+          console.error("Erreur lors de la récupération des données :", err);
+          setLoading(false);
+        });
+    }, 500);
+  }, [categorie, location.pathname]);
 
   useEffect(() => {
     const filtered = data.filter((artisan) =>
@@ -140,7 +156,9 @@ const Artisant = () => {
       </div>
 
       <div className="flex flex-wrap justify-center items-start">
-        {filteredData.length > 0 ? (
+        {loading ? (
+          <Spinner />
+        ) : filteredData.length > 0 ? (
           filteredData.map((artisan, index) => (
             <div
               key={artisan.id}
@@ -152,9 +170,7 @@ const Artisant = () => {
                 alt={`Illustration de ${artisan.nom}`}
                 className="w-full object-contain mb-4"
               />
-
               {renderStars(artisan.note)}
-
               <h3 className="text-lg font-bold mt-2">{artisan.nom}</h3>
               <p className="text-sm text-gray-600">{artisan.specialite}</p>
               <p className="text-sm text-gray-500 mb-2 italic">
@@ -163,7 +179,6 @@ const Artisant = () => {
               <p className="text-sm text-gray-500 mb-4">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               </p>
-
               {artisan.site_web ? (
                 <a
                   href={artisan.site_web}
@@ -181,7 +196,6 @@ const Artisant = () => {
                   Site non disponible
                 </button>
               )}
-
               <a
                 href={`mailto:${artisan.email}`}
                 className="text-blue-600 p-2 rounded-full hover:bg-blue-100 transition"

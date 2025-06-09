@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import BgChiffre from "../../public/assets/images - background/bgchiffre.jpg";
 import Bubble from "../../public/assets/images - background/bublle.svg";
 import Menuisier from "../../public/assets/images - background/menuisier.png";
+import Artisant from "../composant/Artisant";
 import CarouselAvis from "../composant/CarouselAvis";
 import HeroHome from "../composant/HeroHome";
 
@@ -113,6 +114,13 @@ const Accueil = () => {
           Avis des utilisateurs
         </div>
         <CarouselAvis />
+      </section>
+      <section className="relative">
+        <div className="absolute z-1 sm:left-10 sm:top-2 sm:text-2xl font-bold text-white p-4 bg-[#0074C7]">
+          <span className="text-6xl text-white font-black">-</span> <br />
+          Notre Top 3
+        </div>
+        <Artisant />
       </section>
     </div>
   );

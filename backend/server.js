@@ -48,17 +48,65 @@ const testDbConnection = () => {
 };
 testDbConnection();
 
+// Récupérer tous les artisans
+app.get("/artisans", (req, res) => {
+  req.getConnection((err, connection) => {
+    if (err) return res.send("Erreur de connexion à la base de données.");
+
+    connection.query("SELECT * FROM artisans", [], (err, resultat) => {
+      if (err) return res.send("Erreur lors de la récupération des artisans.");
+
+      res.json(resultat);
+    });
+  });
+});
+
+// Récupérer les liens de navigation
+app.get("/api/nav-links", (req, res) => {
+  req.getConnection((err, connection) => {
+    if (err) return res.send("Erreur connexion DB");
+
+    connection.query(
+      "SELECT * FROM nav_links ORDER BY position",
+      (err, rows) => {
+        if (err) return res.send("Erreur requête SQL");
+
+        res.json(rows);
+      }
+    );
+  });
+});
+
+const verifyUser = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.json({ Error: "you are not authenticate" });
+  } else {
+    jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+      if (err) {
+        return res.json({ Error: "token is not ok" });
+      } else {
+        req.name = decoded.name;
+        next();
+      }
+    });
+  }
+};
+app.get("/verify", verifyUser, (req, res) => {
+  return res.json({ Status: "succès", name: req.name });
+});
+
 // Inscription
 app.post("/register", (req, res) => {
   console.log("📩 Reçu une demande d'inscription :", req.body);
 
-  const sql = "INSERT INTO users (`fullname`, `mail`, `password`) VALUES (?)";
+  const sql = "INSERT INTO users (`name`, `mail`, `password`) VALUES (?)";
 
   bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
     if (err)
       return res.json({ error: "Erreur lors du hachage du mot de passe" });
 
-    const values = [req.body.fullname, req.body.mail, hash];
+    const values = [req.body.name, req.body.mail, hash];
 
     req.getConnection((err, connection) => {
       if (err)
@@ -99,7 +147,7 @@ app.post("/login", (req, res) => {
               });
 
             if (match) {
-              const name = utilisateur.fullname;
+              const name = utilisateur.name;
               const token = jwt.sign({ name }, "jwt-secret-key", {
                 expiresIn: "1d",
               });
@@ -117,33 +165,11 @@ app.post("/login", (req, res) => {
   });
 });
 
-// Récupérer tous les artisans
-app.get("/", (req, res) => {
-  req.getConnection((err, connection) => {
-    if (err) return res.send("Erreur de connexion à la base de données.");
+//deconnexion
 
-    connection.query("SELECT * FROM artisans", [], (err, resultat) => {
-      if (err) return res.send("Erreur lors de la récupération des artisans.");
-
-      res.json(resultat);
-    });
-  });
-});
-
-// Récupérer les liens de navigation
-app.get("/api/nav-links", (req, res) => {
-  req.getConnection((err, connection) => {
-    if (err) return res.send("Erreur connexion DB");
-
-    connection.query(
-      "SELECT * FROM nav_links ORDER BY position",
-      (err, rows) => {
-        if (err) return res.send("Erreur requête SQL");
-
-        res.json(rows);
-      }
-    );
-  });
+app.get("/logout", (req, res) => {
+  res.clearCookie("token");
+  return res.json({ Status: "succès" });
 });
 
 // Lancer le serveur

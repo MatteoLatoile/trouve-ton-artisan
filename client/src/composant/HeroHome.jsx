@@ -35,11 +35,11 @@ const HeroHome = () => {
       />
 
       <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
-        <div className="text-white text-center p-10 rounded-lg md:w-full md:mx-4 lg:w-1/2">
-          <h1 className="hero-line sm:text-3xl lg:text-4xl font-bold mb-4">
+        <div className="text-white text-center p-8 rounded-lg md:w-full md:mx-4 lg:w-1/2">
+          <h1 className="hero-line sm:text-3xl lg:text-5xl lg:tracking-[-2px] font-bold mb-4">
             Trouvez facilement un artisan local en Auvergne-Rhône-Alpes
           </h1>
-          <h2 className="hero-line sm:text-sm lg:text-xl mb-6">
+          <h2 className="hero-line sm:text-sm lg:text-l my-6">
             Une plateforme régionale pour entrer en contact direct avec les
             artisans près de chez vous : demande de devis, prestations ou simple
             renseignement, en quelques clics.

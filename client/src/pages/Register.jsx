@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [values, setValues] = useState({
-    fullname: "",
+    name: "",
     mail: "",
     password: "",
     confirmPassword: "",
@@ -27,7 +27,7 @@ const Register = () => {
     axios
       .post("http://localhost:5000/register", values, { withCredentials: true })
       .then((res) => {
-        if (res.data.status === "succès") {
+        if (res.data.Status === "succès") {
           navigate("/login");
           setMessage("Inscription réussie !");
         } else if (res.data.error) {
@@ -41,7 +41,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F1F8FC] p-6">
+    <div className="min-h-screen flex items-center justify-center py-28 bg-[#F1F8FC] p-6">
       <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6 text-[#0074C7]">
           Créer un compte
@@ -56,8 +56,8 @@ const Register = () => {
             <label className="block mb-1 font-semibold">Nom complet</label>
             <input
               type="text"
-              name="fullname"
-              value={values.fullname}
+              name="name"
+              value={values.name}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2"
               required
