@@ -119,11 +119,19 @@ const Header = () => {
       </nav>
 
       {/* Connexion (desktop) */}
-      <Link to="/login" className="hidden md:block">
-        <button className="border border-[#0074C7] text-[#0074C7] rounded-full px-6 py-2 hover:bg-blue-100 transition-colors">
-          Connexion
-        </button>
-      </Link>
+      {auth ? (
+        <Link to="/login" className="hidden md:block">
+          <button className="border border-[#0074C7] text-[#0074C7] rounded-full px-6 py-2 hover:bg-blue-100 transition-colors">
+            Déconnexion
+          </button>
+        </Link>
+      ) : (
+        <Link to="/login" className="hidden md:block">
+          <button className="border border-[#0074C7] text-[#0074C7] rounded-full px-6 py-2 hover:bg-blue-100 transition-colors">
+            Connexion
+          </button>
+        </Link>
+      )}
 
       {/* Menu mobile déroulant */}
       {isMobileMenuOpen && (
@@ -144,13 +152,23 @@ const Header = () => {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                <button className="w-full border bg-[#0074C7] text-[#fff] rounded-full py-2 hover:bg-blue-50">
-                  Connexion
-                </button>
-              </Link>
-            </li>
+            {auth ? (
+              <li>
+                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                  <button className="w-full border bg-[#0074C7] text-[#fff] rounded-full py-2 hover:bg-blue-50">
+                    Déconnexion
+                  </button>
+                </Link>
+              </li>
+            ) : (
+              <li>
+                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                  <button className="w-full border bg-[#0074C7] text-[#fff] rounded-full py-2 hover:bg-blue-50">
+                    Connexion
+                  </button>
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       )}
