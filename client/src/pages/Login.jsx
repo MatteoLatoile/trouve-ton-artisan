@@ -14,16 +14,18 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  axios.defaults.withCredentials = true;
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     axios
       .post("http://localhost:5000/login", values, { withCredentials: true })
       .then((res) => {
-        if (res.data.status === "succès") {
+        if (res.data.Status === "succès") {
           navigate("/"); // Rediriger vers une page appropriée
         } else {
-          alert(res.data.err);
+          alert(res.data.error);
         }
       })
       .catch((err) => {

@@ -68,7 +68,7 @@ app.post("/register", (req, res) => {
         if (err)
           return res.json({ error: "Erreur lors de l'insertion des données" });
 
-        return res.json({ status: "succès" });
+        return res.json({ Status: "succès" });
       });
     });
   });
@@ -99,12 +99,12 @@ app.post("/login", (req, res) => {
               });
 
             if (match) {
-              const name = data[0].name;
+              const name = utilisateur.fullname;
               const token = jwt.sign({ name }, "jwt-secret-key", {
                 expiresIn: "1d",
               });
               res.cookie("token", token);
-              return res.json({ status: "succès" });
+              return res.json({ Status: "succès" });
             } else {
               return res.json({ error: "Mot de passe incorrect" });
             }
