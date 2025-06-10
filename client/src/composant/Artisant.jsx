@@ -32,7 +32,7 @@ const Artisant = () => {
   const categorie = getCategorieFromPath(location.pathname);
 
   useEffect(() => {
-    setLoading(true); // 🆕 Start loader
+    setLoading(true); // debut loader
     setTimeout(() => {
       axios
         .get("http://localhost:5000/artisans", { withCredentials: true })
@@ -53,7 +53,7 @@ const Artisant = () => {
           console.error("Erreur lors de la récupération des données :", err);
           setLoading(false);
         });
-    }, 500);
+    }, 1000);
   }, [categorie, location.pathname]);
 
   useEffect(() => {
